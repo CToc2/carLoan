@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
     private EditText editLengthLoan;
     private Button button;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ToggleButton toggleButton = findViewById(R.id.toggleButton);
+
         finalTotal = findViewById(R.id.finalTotal);
         editPrice = findViewById(R.id.editPrice);
         editDownPayment = findViewById(R.id.editDownPayment);
@@ -39,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 price -= down;
                 double intr = Double.parseDouble(editInterestRate.getText().toString())/100;
                 double length = Double.parseDouble(editLengthLoan.getText().toString());
-                double p = intr*price/(1-Math.pow(1+intr,length));
+                intr = intr/12;
+                if (toggleButton.isChecked()){
+                    price = price/3;
+                    length = 36;
+                }
+                double p = intr*price/(1-Math.pow(1+intr,-length));
 //                double p = Math.pow(intr * price / (1 - (1 + intr)), -length);
                 finalTotal.setText("Total: $" + p);
             }
